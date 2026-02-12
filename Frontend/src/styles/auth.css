@@ -1,0 +1,111 @@
+/* Responsive, mobile-first auth styles */
+
+.auth-page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  padding: 28px 20px;
+  background: var(--bg);
+}
+.auth-back-btn {
+   position: 'absolute';
+  top: 16; 
+  left: 16; 
+  padding: 8px 10px;
+  cursor: pointer;
+  background: var(--card-bg);
+  border: 1px solid var(--input-border);
+  border-radius: 8px;
+  color: var(--text);
+}
+
+.auth-card {
+  width: 100%;
+  max-width: 520px;
+  background: var(--card-bg);
+  padding: 20px;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--input-border);
+}
+
+.auth-title {
+  margin: 0 0 8px;
+  font-size: 1.35rem;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.auth-label {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.auth-input {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  font-size: 1rem;
+}
+
+.auth-value {
+  padding: 12px;
+  border-radius: 8px;
+  border: 1px solid var(--input-border);
+  background: var(--input-bg);
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.auth-input:focus {
+  box-shadow: var(--focus);
+  border-color: var(--primary-600);
+}
+
+.auth-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--primary);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform .08s ease, box-shadow .08s ease;
+}
+
+.auth-btn:hover { transform: translateY(-1px); }
+
+.auth-note {
+  margin-top: 12px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* Larger screens: two-column name fields */
+@media (min-width: 640px) {
+  .auth-card { padding: 28px; }
+  .form-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* Make sure long text flows well */
+.auth-card, .auth-form, .auth-input { word-break: break-word; }
