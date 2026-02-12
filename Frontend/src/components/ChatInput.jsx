@@ -20,7 +20,7 @@ const ChatInput = () => {
   }, [text]);
 
   useEffect(() => {
-    const tempsocket = io("http://localhost:3000",{
+    const tempsocket = io("https://primegpt-ls30.onrender.com",{
       withCredentials: true
     });
     tempsocket.on("ai-response", (message) => {

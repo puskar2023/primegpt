@@ -31,7 +31,7 @@ const Sidebar = () => {
       return;
     }
 
-    const response = await axios.post('http://localhost:3000/api/chat/', {
+    const response = await axios.post('https://primegpt-ls30.onrender.com/api/chat/', {
      title
     },{
       withCredentials: true

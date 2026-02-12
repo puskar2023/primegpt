@@ -13,7 +13,7 @@ const SettingsPanel = () => {
     if (!chats || chats.length === 0) return;
     if (!window.confirm('Delete all chat history? This cannot be undone.')) return;
     try{
-      await axios.delete('http://localhost:3000/api/chat/', { withCredentials: true });
+      await axios.delete('https://primegpt-ls30.onrender.com/api/chat/', { withCredentials: true });
       dispatch(loadChats([]));
       dispatch(setShowSettings(false));
       dispatch(setSidebarVisible(false));

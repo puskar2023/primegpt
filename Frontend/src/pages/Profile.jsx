@@ -12,7 +12,7 @@ const Profile = () => {
     const user = useSelector((state) => state.users.user);
     const LogoutHandler = async () => {
         try {
-          await axios.post('http://localhost:3000/api/auth/logout', {}, { withCredentials: true });
+          await axios.post('https://primegpt-ls30.onrender.com/api/auth/logout', {}, { withCredentials: true });
         } catch (e) {
           // ignore network errors, still clear client state
         }

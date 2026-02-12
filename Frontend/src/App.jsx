@@ -17,13 +17,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/chat/", { withCredentials: true }).then((response) => {
+    axios.get("https://primegpt-ls30.onrender.com/api/chat/", { withCredentials: true }).then((response) => {
         dispatch(loadChats(response.data.chats.reverse()));
       }).catch((error) => {
         console.error("Error fetching chats:", error);
       });
 
-      axios.get("http://localhost:3000/api/auth/user", { withCredentials: true }).then((response) => {
+      axios.get("https://primegpt-ls30.onrender.com/api/auth/user", { withCredentials: true }).then((response) => {
         dispatch(loadUser(response.data.user));
       }).catch((error) => {
         console.error("Error fetching user data:", error);

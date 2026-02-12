@@ -21,7 +21,7 @@ const Login = () => {
     setLoading(true);
     await axios
       .post(
-        "http://localhost:3000/api/auth/login",
+        "https://primegpt-ls30.onrender.com/api/auth/login",
         {
           email: email,
           password: password,
@@ -31,13 +31,13 @@ const Login = () => {
         }
       )
       .then((res) => {
-            axios.get("http://localhost:3000/api/chat/", { withCredentials: true }).then((response) => {
+            axios.get("https://primegpt-ls30.onrender.com/api/chat/", { withCredentials: true }).then((response) => {
         dispatch(loadChats(response.data.chats.reverse()));
       }).catch((error) => {
         console.error("Error fetching chats:", error);
       });
 
-      axios.get("http://localhost:3000/api/auth/user", { withCredentials: true }).then((response) => {
+      axios.get("https://primegpt-ls30.onrender.com/api/auth/user", { withCredentials: true }).then((response) => {
         dispatch(loadUser(response.data.user));
       }).catch((error) => {
         console.error("Error fetching user data:", error);

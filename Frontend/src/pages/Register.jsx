@@ -22,7 +22,7 @@ const Register = () => {
 
     await axios
       .post(
-        "http://localhost:3000/api/auth/register",
+        "https://primegpt-ls30.onrender.com/api/auth/register",
         {
           email: email,
           fullName: {
@@ -37,7 +37,7 @@ const Register = () => {
       )
       .then((res) => {
         axios
-          .get("http://localhost:3000/api/chat/", { withCredentials: true })
+          .get("https://primegpt-ls30.onrender.com/api/chat/", { withCredentials: true })
           .then((response) => {
             dispatch(loadChats(response.data.chats.reverse()));
           })
@@ -46,7 +46,7 @@ const Register = () => {
           });
 
         axios
-          .get("http://localhost:3000/api/auth/user", { withCredentials: true })
+          .get("https://primegpt-ls30.onrender.com/api/auth/user", { withCredentials: true })
           .then((response) => {
             dispatch(loadUser(response.data.user));
           })

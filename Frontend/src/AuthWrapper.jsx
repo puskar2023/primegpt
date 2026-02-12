@@ -5,7 +5,7 @@ import axios from "axios";
 const AuthWrapper = (props) => {
   const [isAuth, setIsAuth] = useState(null);
   axios
-    .get("http://localhost:3000/api/auth/user", { withCredentials: true })
+    .get("https://primegpt-ls30.onrender.com/api/auth/user", { withCredentials: true })
     .then((response) => {
       setIsAuth(response.data.user ? true : false);
     })
