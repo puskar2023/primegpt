@@ -27,20 +27,20 @@ const chatSlice = createSlice({
     },
     deleteChat(state, action) {
       const id = action.payload;
-      state.chats = state.chats.filter((c) => c.id !== id);
+      state.chats = state.chats.filter((c) => c._id !== id);
       if (state.currentChatId === id)
-        state.currentChatId = state.chats[0]?.id || null;
+        state.currentChatId = state.chats[0]?._id || null;
     },
     selectChat(state, action) {
       state.currentChatId = action.payload;
     },
     addMessage(state, action) {
       const { chatId, message } = action.payload;
-      const idx = state.chats.findIndex((c) => c.id === chatId);
+      const idx = state.chats.findIndex((c) => c._id === chatId);
       if (idx === -1) return;
       const chat = state.chats[idx];
       const wasEmpty = !chat.messages || chat.messages.length === 0;
-      const newMessages = [...chat.messages, message];
+      const newMessages = [...(chat.messages || []), message];
       const newTitle =
         wasEmpty && message.role === "user" && !chat.title
           ? truncate(message.text || "")
@@ -61,14 +61,17 @@ const chatSlice = createSlice({
       let updated = null;
       if (wasEmpty) {
         updated = {
-        ...chat,
-        messages: [...messages]
-      }
-      }else{
+          ...chat,
+          messages: [...messages],
+        };
+      } else {
+        // merge existing and incoming messages and sort by timestamp to keep order deterministic
+        const merged = [...chat.messages, ...messages];
+        merged.sort((a, b) => (a.ts || 0) - (b.ts || 0));
         updated = {
-        ...chat,
-        messages: [...chat.messages, ...messages]
-      }
+          ...chat,
+          messages: merged,
+        };
       }
       
       state.chats = [
@@ -81,9 +84,16 @@ const chatSlice = createSlice({
       const { chatId, botId, text } = action.payload;
       state.chats = state.chats.map((c) => {
         if (c._id !== chatId) return c;
-        const msgs = c.messages.map((m) =>
-          m.id === botId ? { ...m, text } : m,
-        );
+        // If botId provided, update by id. Otherwise, find first assistant placeholder and replace its text.
+        let msgs = c.messages || [];
+        if (botId) {
+          msgs = msgs.map((m) => (m.id === botId ? { ...m, text } : m));
+        } else {
+          const idx = msgs.findIndex((m) => m.role === "assistant" && (m.text === "Thinking..." || !m.text));
+          if (idx !== -1) {
+            msgs = [...msgs.slice(0, idx), { ...msgs[idx], text }, ...msgs.slice(idx + 1)];
+          }
+        }
         return { ...c, messages: msgs };
       });
     },

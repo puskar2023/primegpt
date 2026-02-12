@@ -35,23 +35,26 @@ const ChatHistory = () => {
 
   return (
     <div className="pg-chat-history">
-      {chat.messages?.map((m) => (
-        <div key={m.id} className={`pg-msg pg-msg-${m.role}`}>
-          <div className="pg-msg-text">
-            {m.role === "user" ? (
-              m.text
-            ) : m.text === "Thinking..." ? (
-              <span className="pg-dot-loader" aria-label="loading">
-                <span></span>
-                <span></span>
-                <span></span>
-              </span>
-            ) : (
-              formatText(m.text)
-            )}
+      {(() => {
+        const sorted = [...(chat.messages || [])].sort((a, b) => (a.ts || 0) - (b.ts || 0));
+        return sorted.map((m) => (
+          <div key={m.id} className={`pg-msg pg-msg-${m.role}`}>
+            <div className="pg-msg-text">
+              {m.role === "user" ? (
+                m.text
+              ) : m.text === "Thinking..." ? (
+                <span className="pg-dot-loader" aria-label="loading">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </span>
+              ) : (
+                formatText(m.text)
+              )}
+            </div>
           </div>
-        </div>
-      ))}
+        ));
+      })()}
     </div>
   );
 };

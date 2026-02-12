@@ -7,7 +7,6 @@ const ChatInput = () => {
   const {currentChatId, chats} = useSelector((s) => s.chat);
   const [text, setText] = useState('');
   const [socket, setSocket] = useState(null);
-  const [botid, setBotid] = useState(null);
   const textareaRef = useRef(null);
   const dispatch = useDispatch();
 
@@ -27,9 +26,10 @@ const ChatInput = () => {
       console.log("Received AI response", message);
       // content: response,
       // chat: messagePayload.chat,
+      // update the assistant placeholder message for this chat
       dispatch(
-      updateBotMessage({ chatId: message.chat, botId: botid, text: `${message.content}` }),
-    );
+        updateBotMessage({ chatId: message.chat, text: `${message.content}` }),
+      );
 
     });
 
@@ -46,7 +46,9 @@ const ChatInput = () => {
 
   if (!chatId) {
     chatId = timestamp.toString();
-    dispatch(createChat({ title, _id: chatId }));
+    // create a local chat with an initial title derived from the message (server may override)
+    const localTitle = t.substring(0, 50);
+    dispatch(createChat({ title: localTitle, _id: chatId }));
   }
 
   socket.emit("ai-message", {
@@ -57,12 +59,12 @@ const ChatInput = () => {
   const userMsg = {
     id: timestamp.toString(),
     role: "user",
-    text,
+    text: t,
     ts: timestamp,
   };
-  setBotid((timestamp + 1).toString());
+  const botId = (timestamp + 1).toString();
   const botMsg = {
-    id: botid,
+    id: botId,
     role: "assistant",
     text: "Thinking...",
     ts: timestamp + 1,
