@@ -23,7 +23,6 @@ const ChatInput = () => {
       withCredentials: true
     });
     tempsocket.on("ai-response", (message) => {
-      console.log("Received AI response", message);
       // content: response,
       // chat: messagePayload.chat,
       // update the assistant placeholder message for this chat
